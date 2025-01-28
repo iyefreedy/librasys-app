@@ -12,6 +12,8 @@ export const useAuthStore = defineStore('auth', () => {
             loading.value = true;
 
             await api.login({ email, password });
+
+            this.router.push('/');
         } catch (error) {
             error.value = error.message || 'An unknow error occured';
         } finally {

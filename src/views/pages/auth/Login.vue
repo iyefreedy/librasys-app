@@ -1,10 +1,17 @@
 <script setup>
 import FloatingConfigurator from '@/components/FloatingConfigurator.vue';
+import { useAuthStore } from '@/store/auth';
 import { ref } from 'vue';
+
+const authStore = useAuthStore();
 
 const email = ref('');
 const password = ref('');
 const checked = ref(false);
+
+async function handleLogin() {
+    await authStore.login({ email: email.value, password: password.value });
+}
 </script>
 
 <template>
@@ -49,7 +56,7 @@ const checked = ref(false);
                             </div>
                             <span class="font-medium no-underline ml-2 text-right cursor-pointer text-primary">Forgot password?</span>
                         </div>
-                        <Button label="Sign In" class="w-full" as="router-link" to="/"></Button>
+                        <Button label="Sign In" class="w-full" @click="handleLogin"></Button>
                     </div>
                 </div>
             </div>
