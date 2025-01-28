@@ -13,8 +13,7 @@ const model = ref([
         items: [
             { label: 'Member', icon: 'pi pi-fw pi-users', to: '/members' },
             { label: 'Books', icon: 'pi pi-fw pi-book', to: '/books' },
-            { label: 'Loan', icon: 'pi pi-fw pi-bookmark', to: '/loans' },
-            { label: 'Returns', icon: 'pi pi-fw pi-download', to: '/returns' }
+            { label: 'Loan', icon: 'pi pi-fw pi-bookmark', to: '/loans' }
         ]
     }
 ]);

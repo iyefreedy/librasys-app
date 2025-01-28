@@ -1,6 +1,5 @@
 <script setup>
 import { useBooksStore } from '@/store/books';
-import { useLoanReturnsStore } from '@/store/loanReturns';
 import { useLoansStore } from '@/store/loans';
 import { useMembersStore } from '@/store/members';
 import { FilterMatchMode } from '@primevue/core/api';
@@ -9,12 +8,10 @@ import { onMounted, ref } from 'vue';
 const loansStore = useLoansStore();
 const membersStore = useMembersStore();
 const booksStore = useBooksStore();
-const loanReturnsStore = useLoanReturnsStore();
 
 const loanDataTable = ref();
 const loan = ref({});
 const loanDialog = ref(false);
-const loanReturn = ref({});
 const loanReturnDialog = ref(false);
 const submitted = ref(false);
 const filters = ref({
@@ -52,17 +49,18 @@ async function saveLoan() {
     loan.value = {};
 }
 
-function returnLoan(loan) {
-    loanReturn.value = { loan_id: loan.id };
+function returnLoan(item) {
+    loan.value = { ...item };
+
     loanReturnDialog.value = true;
 }
 
 async function saveReturnLoan() {
     submitted.value = true;
-    await loanReturnsStore.saveLoanReturns(loanReturn.value);
+    await loansStore.saveLoan(loan.value);
 
     loanReturnDialog.value = false;
-    loanReturn.value = {};
+    loan.value = {};
 }
 </script>
 
@@ -92,17 +90,17 @@ async function saveReturnLoan() {
                     </div>
                 </template>
 
-                <Column field="member.name" header="Member" style="min-width: 16rem"></Column>
-                <Column field="book.title" header="Book" style="min-width: 16rem"></Column>
+                <Column field="member.name" header="Member" style="min-width: 8rem"></Column>
+                <Column field="book.title" header="Book" style="min-width: 8rem"></Column>
                 <Column field="loan_date" header="Loan Date"></Column>
                 <Column field="due_date" header="Due Date"></Column>
-                <Column field="return.return_date" header="Return Date">
+                <Column field="return_date" :sortable="false" header="Return Date">
                     <template #body="slotProps">
                         {{ slotProps.data.return_date ?? 'Not returned yet' }}
                     </template>
                 </Column>
 
-                <Column :exportable="false" style="min-width: 12rem">
+                <Column :exportable="false">
                     <template #body="slotProps">
                         <Button icon="pi pi-history" outlined rounded class="mr-2" @click="returnLoan(slotProps.data)" />
                     </template>
@@ -140,7 +138,11 @@ async function saveReturnLoan() {
             <div class="flex flex-col gap-6">
                 <div>
                     <label for="return_date" class="block font-bold mb-3">Return Date</label>
-                    <DatePicker id="return_date" v-model="loanReturn.return_date" fluid></DatePicker>
+                    <DatePicker id="return_date" v-model="loan.return_date" fluid></DatePicker>
+                </div>
+                <div>
+                    <label for="fine" class="block font-bold mb-3">Fine</label>
+                    <InputNumber v-model="loan.fine" inputId="currency-id" mode="currency" currency="IDR" locale="id-ID" fluid />
                 </div>
             </div>
 

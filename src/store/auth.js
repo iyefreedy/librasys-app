@@ -1,4 +1,5 @@
 import api from '@/api';
+import router from '@/router';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
@@ -13,7 +14,7 @@ export const useAuthStore = defineStore('auth', () => {
 
             await api.login({ email, password });
 
-            this.router.push('/');
+            router.push('/');
         } catch (error) {
             error.value = error.message || 'An unknow error occured';
         } finally {
