@@ -40,14 +40,6 @@ const router = createRouter({
                     meta: {
                         auth: true
                     }
-                },
-                {
-                    path: '/returns',
-                    name: 'returns',
-                    component: () => import('@/views/Returns.vue'),
-                    meta: {
-                        auth: true
-                    }
                 }
             ]
         },

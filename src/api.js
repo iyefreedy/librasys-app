@@ -83,23 +83,5 @@ export default {
     },
     async deleteLoan(loan) {
         return await api.delete(`/api/loans/${loan.id}`);
-    },
-    async getLoanReturns() {
-        const { data } = await api.get('/api/returns');
-
-        return data.data;
-    },
-    async addLoanReturn(loanReturn) {
-        const { data } = await api.post('/api/returns', loanReturn);
-
-        return data.data;
-    },
-    async editLoanReturn(loanReturn) {
-        const { data } = await api.put(`/api/returns/${loanReturn.id}`, loanReturn);
-
-        return data.data;
-    },
-    async deleteLoanReturn(loanReturn) {
-        return await api.delete(`/api/returns/${loanReturn.id}`);
     }
 };
